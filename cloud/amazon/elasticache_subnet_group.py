@@ -114,7 +114,10 @@ def main():
 
     """Get an elasticache connection"""
     try:
-        endpoint = "elasticache.%s.amazonaws.com" % region
+        if region.startswith("cn-"):
+            endpoint = "elasticache.%s.amazonaws.com.cn" % region
+        else:
+            endpoint = "elasticache.%s.amazonaws.com" % region
         connect_region = RegionInfo(name=region, endpoint=endpoint)
         conn = ElastiCacheConnection(region=connect_region, **aws_connect_kwargs)
     except boto.exception.NoAuthHandlerFound as e:
